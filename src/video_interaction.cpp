@@ -29,12 +29,24 @@ int VideoInteraction::getCurrentFrameNumber()
     return frame_number_;
 }
 
+cv::Mat VideoInteraction::getPreviousFrame()
+{
+    return previous_frame_;
+}
+
+cv::Mat VideoInteraction::getCurrentFrame()
+{
+    return current_frame_;
+}
+
 bool VideoInteraction::getFrame(cv::Mat &frame)
 {
-    capture_ >> frame;
+    previous_frame_ = current_frame_.clone();
+    capture_ >> frame;        
     if (!frame.empty())
     {
         frame_number_++;
+        current_frame_ = frame;
     }
     return !frame.empty();
 }

@@ -19,10 +19,15 @@ class VideoInteraction
 
         bool getFrame(cv::Mat &frame);
 
+        cv::Mat getPreviousFrame();
+        cv::Mat getCurrentFrame();
+
 
     private:
 
         int frame_number_;
         cv::VideoCapture capture_;
+        cv::Mat previous_frame_;
+        cv::Mat current_frame_;
 };
 #endif

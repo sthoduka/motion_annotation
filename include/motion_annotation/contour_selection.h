@@ -9,7 +9,7 @@ class ContourSelection
         ContourSelection();
         virtual ~ContourSelection();
 
-        void selectContour(cv::Mat &frame, std::vector<cv::Point> &points);
+        void selectContour(cv::Mat &frame, const cv::Mat &previous_frame, std::vector<cv::Point> &points);
 
         static void mouseCallback(int event, int x, int y, int flags, void *param);
         static void dialogMouseCallback(int event, int x, int y, int flags, void *param);
@@ -26,6 +26,7 @@ class ContourSelection
         cv::Mat frame_;
         bool answer_received_;
         bool is_satisfied_;
+        bool start_;
 
 };
 #endif

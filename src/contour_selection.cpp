@@ -10,13 +10,14 @@ ContourSelection::~ContourSelection()
 {
 }
 
-void ContourSelection::selectContour(cv::Mat &frame, std::vector<cv::Point> &points)
+void ContourSelection::selectContour(cv::Mat &frame, const cv::Mat &previous_frame, std::vector<cv::Point> &points)
 {
     cv::imshow("Contour Selection", frame);
     cv::setMouseCallback("Contour Selection", mouseCallback, this);
 
     while (!is_satisfied_)
     {        
+        start_ = false;
         points_.clear();
         frame.copyTo(frame_);
         cv::imshow("Contour Selection", frame_);
@@ -26,6 +27,16 @@ void ContourSelection::selectContour(cv::Mat &frame, std::vector<cv::Point> &poi
         while ( (key = cv::waitKey(0)) != 'x')
         {
             std::cout << "Press 'x' to exit" << key << std::endl;
+            if (key == '1')
+            {
+                std::cout << "showing current " << std::endl;
+                cv::imshow("Contour Selection", frame_);
+            }
+            else if (key == '2')
+            {
+                std::cout << "showing previous " << std::endl;
+                cv::imshow("Contour Selection", previous_frame);
+            }
         }   
         
         if (points_.size() > 1)
@@ -62,7 +73,6 @@ void ContourSelection::doDialogMouseCallback(int event, int x, int y, int flags)
 {
     if (event == CV_EVENT_LBUTTONDOWN)
     {
-        std::cout << "reached here" << std::endl;
         if (!answer_received_)
         {
             if (x > 10 && x < 100 && y > 30 && y < 45)
@@ -80,7 +90,8 @@ void ContourSelection::doDialogMouseCallback(int event, int x, int y, int flags)
 }
 void ContourSelection::doMouseCallback(int event, int x, int y, int flags)
 {
-    if (event == CV_EVENT_LBUTTONDOWN)
+//    if (event == CV_EVENT_LBUTTONDOWN)
+    if (event == CV_EVENT_MOUSEMOVE && start_)
     {
         points_.push_back(cv::Point(x, y));
         if (points_.size() > 1)
@@ -89,6 +100,21 @@ void ContourSelection::doMouseCallback(int event, int x, int y, int flags)
             cv::imshow("Contour Selection", frame_);
             cv::waitKey(1);
         }
+    }
+    if (!start_ && event == CV_EVENT_LBUTTONDOWN)
+    {
+        points_.push_back(cv::Point(x, y));
+        if (points_.size() > 1)
+        {
+            cv::line(frame_, points_.back(), points_[points_.size() - 2], cv::Scalar(0, 0, 255));            
+            cv::imshow("Contour Selection", frame_);
+            cv::waitKey(1);
+        }
+        start_ = true;
+    }
+    else if (start_  && event == CV_EVENT_LBUTTONDOWN)
+    {
+        start_ = false;
     }
 }
 

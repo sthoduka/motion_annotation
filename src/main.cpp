@@ -19,6 +19,7 @@ int main(int argc, char** argv)
     char key;
     cv::Mat frame;
     bool frame_exists = false;
+    vi.getFrame(frame);
     frame_exists = vi.getFrame(frame);
     if (frame_exists)
     {
@@ -38,8 +39,9 @@ int main(int argc, char** argv)
             do
             {
                 std::vector<cv::Point> points;
-                cs.selectContour(frame, points);
-                ml.writeContour(points, vi.getCurrentFrameNumber(), contour_id);
+                cs.selectContour(frame, vi.getPreviousFrame(), points);
+                if (points.size() > 1)
+                    ml.writeContour(points, vi.getCurrentFrameNumber(), contour_id);
                 cv::imshow("Frame Display", frame);
                 cv::waitKey(1);
                 contour_id++;
@@ -56,6 +58,7 @@ int main(int argc, char** argv)
         else
         {
             frame_exists = vi.getFrame(frame);
+            std::cout << "Frame: " << vi.getCurrentFrameNumber() << std::endl;
             if (frame_exists)
             {
                 cv::imshow("Frame Display", frame);
