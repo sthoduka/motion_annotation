@@ -14,6 +14,8 @@ class MotionLogger
         virtual ~MotionLogger();
 
         void writeContour(const std::vector<cv::Point> &points, int frame_number, int contour_id);
+        void writeBoundingBox(const cv::Rect &rect, int frame_number, int contour_id);
+        void writeBoundingBox(const cv::Point &top_left, const cv::Point &bottom_right, int frame_number, int contour_id);
 
     private:
         std::ofstream file_out_;

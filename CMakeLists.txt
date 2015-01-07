@@ -9,6 +9,7 @@ add_executable(motion_annotation
     src/main.cpp
     src/video_interaction.cpp
     src/contour_selection.cpp
+    src/box_selection.cpp
     src/motion_logger.cpp
 )
 

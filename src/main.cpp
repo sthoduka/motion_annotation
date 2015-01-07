@@ -2,7 +2,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <motion_annotation/video_interaction.h>
 #include <motion_annotation/motion_logger.h>
-#include <motion_annotation/contour_selection.h>
+#include <motion_annotation/box_selection.h>
 #include <iostream>
 
 
@@ -14,7 +14,7 @@ int main(int argc, char** argv)
     VideoInteraction vi;
     vi.open(video_filepath);   
     MotionLogger ml(log_filepath);
-    ContourSelection cs;
+    BoxSelection bs;
 
     char key;
     cv::Mat frame;
@@ -38,10 +38,12 @@ int main(int argc, char** argv)
             int contour_id = 0;
             do
             {
-                std::vector<cv::Point> points;
-                cs.selectContour(frame, vi.getPreviousFrame(), points);
-                if (points.size() > 1)
-                    ml.writeContour(points, vi.getCurrentFrameNumber(), contour_id);
+                cv::Point top_left;
+                cv::Point bottom_right;
+                bs.selectBox(frame, vi.getPreviousFrame(), top_left, bottom_right);
+                if (top_left.x != bottom_right.x && top_left.y != bottom_right.y)
+                    ml.writeBoundingBox(top_left, bottom_right, vi.getCurrentFrameNumber(), contour_id);
+                cv::rectangle(frame, top_left, bottom_right, cv::Scalar(0,0,255), 2,8,0);
                 cv::imshow("Frame Display", frame);
                 cv::waitKey(1);
                 contour_id++;

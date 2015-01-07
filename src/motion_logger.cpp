@@ -20,3 +20,15 @@ void MotionLogger::writeContour(const std::vector<cv::Point> &points, int frame_
     }
     file_out_ << std::endl;
 }
+
+void MotionLogger::writeBoundingBox(const cv::Rect &rect, int frame_number, int contour_id)
+{
+    file_out_ << frame_number << ", " << contour_id;
+    file_out_ << ", " << rect.tl().x << ", " << rect.tl().y << ", " << rect.br().x << ", " << rect.br().y << std::endl;
+}
+
+void MotionLogger::writeBoundingBox(const cv::Point &top_left, const cv::Point &bottom_right, int frame_number, int contour_id)
+{
+    file_out_ << frame_number << ", " << contour_id;
+    file_out_ << ", " << top_left.x << ", " << top_left.y << ", " << bottom_right.x << ", " << bottom_right.y << std::endl;
+}
