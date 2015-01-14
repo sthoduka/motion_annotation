@@ -1,6 +1,14 @@
+/* video_interaction.cpp
+ *
+ * Copyright (C) 2014 Santosh Thoduka
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
 #include <motion_annotation/video_interaction.h>
 
-VideoInteraction::VideoInteraction() : frame_number_(0)
+VideoInteraction::VideoInteraction(int skip_frames) : frame_number_(0), skip_frames_(skip_frames)
 {    
 }
 
@@ -42,12 +50,13 @@ cv::Mat VideoInteraction::getCurrentFrame()
 bool VideoInteraction::getFrame(cv::Mat &frame)
 {
     previous_frame_ = current_frame_.clone();
-    capture_ >> frame;        
+    capture_ >> frame;
     if (!frame.empty())
     {
         frame_number_++;
         current_frame_ = frame;
     }
+    skip(skip_frames_);
     return !frame.empty();
 }
 

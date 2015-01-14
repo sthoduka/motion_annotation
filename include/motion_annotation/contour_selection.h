@@ -1,3 +1,11 @@
+/* contour_selection.h
+ *
+ * Copyright (C) 2014 Santosh Thoduka
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
 #ifndef CONTOUR_SELECTION_H_
 #define CONTOUR_SELECTION_H_
 

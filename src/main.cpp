@@ -1,3 +1,11 @@
+/* main.cpp
+ *
+ * Copyright (C) 2014 Santosh Thoduka
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <motion_annotation/video_interaction.h>
@@ -10,8 +18,14 @@ int main(int argc, char** argv)
 {
     std::string video_filepath = std::string(argv[1]);
     std::string log_filepath = std::string(argv[2]);
+    
+    int skip_frames = 0;
+    if (argc > 3)
+    {
+        skip_frames = std::stoi(argv[3]); 
+    }
 
-    VideoInteraction vi;
+    VideoInteraction vi(skip_frames);
     vi.open(video_filepath);   
     MotionLogger ml(log_filepath);
     BoxSelection bs;
