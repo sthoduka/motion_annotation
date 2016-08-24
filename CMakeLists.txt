@@ -6,7 +6,14 @@ find_package(OpenCV REQUIRED)
 find_package(Boost REQUIRED COMPONENTS filesystem system)
 
 add_executable(motion_annotation
-    src/main.cpp
+    src/image_main.cpp
+    src/video_interaction.cpp
+    src/contour_selection.cpp
+    src/box_selection.cpp
+    src/motion_logger.cpp
+)
+add_executable(inspector
+    src/inspector.cpp
     src/video_interaction.cpp
     src/contour_selection.cpp
     src/box_selection.cpp
@@ -30,6 +37,11 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 target_link_libraries(motion_annotation
+    ${OpenCV_LIBRARIES}
+    ${Boost_LIBRARIES}
+)
+
+target_link_libraries(inspector
     ${OpenCV_LIBRARIES}
     ${Boost_LIBRARIES}
 )

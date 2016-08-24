@@ -8,9 +8,9 @@
 
 #include <motion_annotation/motion_logger.h>
 
-MotionLogger::MotionLogger(const bfs::path &log_filepath) : file_out_(log_filepath.string().c_str())
+MotionLogger::MotionLogger(const bfs::path &log_filepath)
 {
-
+    file_out_.open(log_filepath.string().c_str(), std::ofstream::out | std::ofstream::app);
 }
 
 MotionLogger::~MotionLogger()
