@@ -13,7 +13,9 @@ Logs selected bounding boxes (where motion is present) frame by frame through us
     make
 
 ### Run
-    ./motion_annotation path/to/video/file path/to/log/file
+    ./motion_annotation_video path/to/video/file path/to/log/file
+    OR
+    ./motion_annotation_image path/to/images/folder path/to/log/file
 
 ### Usage
 - To select bounding boxes for a displayed frame, press 'y'
